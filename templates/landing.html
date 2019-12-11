@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    .wrapper{
+    width: 600px;
+    }
+
+    h2{
+        display: inline-block;
+    }
+    table,th,td{
+        border: 2px solid black;
+        border-collapse: collapse;
+        text-align: left;
+        border-spacing: 2px;
+        padding: 2px;
+    }
+
+    table{
+        width: 600px;
+    }
+    #outer{
+        margin: 0 auto;
+    }
+    .inner{
+        display: inline-block;
+    }
+    #linktobutton{
+        background-color:none;
+        color: black;
+        padding: 5px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: 2px solid black;
+        margin-left: 300px;
+    }
+    .buttontolink{
+        background: none!important;
+        border: none;
+        padding: 0!important;
+        /*optional*/
+        font-family: arial, sans-serif;
+        /*input has OS specific font-family*/
+        color: #069;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+    .tableheader{
+        background-color: darkgrey;
+    }
+    </style>
+</head>
+<body>
+    <div class='wrapper'>
+        <h2>Hello {{user['first_name']}}!</h2>
+        <a href="/logout">Logout</a>
+
+        <a href="/wishes/new" id="linktobutton">Make a wish</a>
+
+        <p>Your wish list:</p>       
+        <table>
+            <tr class="tableheader">
+                <th>Item</th>
+                <th>Date Added</th>
+                <th>Actions</th>
+            </tr>
+        
+            {% for wish in wishes %}
+            <tr>
+                <td>{{wish.title}}</td>
+                <td>{{wish.created_at}}</td>
+                <td id="outer">
+                    <form action="/remove" method="POST">
+                        <input type="hidden" name="wishid" value="{{wish.id}}" class="inner">
+                        <input type="submit" value="Remove" class="inner buttontolink">
+                    </form>
+
+                    <a href="/edit/{{wish.id}}" class="inner buttontolink">Edit</a>
+
+                    <form action="/granted" method="POST">
+                        <input type="hidden" name="wishid" value="{{wish.id}}" class="inner">
+                        <input type="submit" value="Granted" class="inner buttontolink">
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+    
+        </table>
+
+        <p>Granted wishes:</p>
+        <table>
+            <tr class="tableheader">
+                <th>Item</th>
+                <th>Wisher</th>
+                <th>Date Added</th>
+                <th>Date Granted</th>
+                <th>Likes</th>
+                <th>Actions</th>
+            </tr>
+            {% for grant in granted_wishes %}
+            <tr>
+                <td>{{grant.title}}</td>
+                <td>{{grant.author_id}}</td>
+                <td>{{grant.created_at}}</td>
+                <td>{{grant.updated_at}}</td>
+                <td></td>
+                <td></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</body>
+</html>

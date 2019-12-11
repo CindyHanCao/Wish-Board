@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>The Wishing App</title>
+    <style>
+    .wrapper{
+        width: 600px;
+    }
+    h2{
+        display: inline-block;
+    }
+    #logout{
+        margin-left: 250px;
+    }
+    #message{
+        color: red;
+    }
+    #center{
+        width: 300px;
+        border: 2px solid black;
+        text-align: center;
+    }
+    #linktobutton{
+        background-color:none;
+        color: black;
+        padding: 3px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: 2px solid black;
+        margin-bottom: 3px;
+    }
+    .reformatbutton{
+        background-color:none;
+        color: black;
+        padding: 3px 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        border: 2px solid black;
+        margin-bottom: 3px;
+        font-size: 16px;
+        font-family: 'Times New Roman', Times, serif;
+    }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <h2>Hello {{user['first_name']}}! Make a wish!</h2>
+        <a href="/logout" id="logout">Logout</a>
+        <div id="message">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
+        <div id="center">
+            <form action="/create_wish" method="POST">
+                <p>I wish for: <input type="text" name="title"></p>
+                <p>Description: <input type="text" name="content"></p>
+                <a href="/wishes" id="linktobutton">Cancel</a>
+                <input type="submit" value="Submit" class="reformatbutton">
+
+            </form>
+        </div>
+    </div>
+    
+</body>
+</html>
